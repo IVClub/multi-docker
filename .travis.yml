@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t xuanhuaz/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true USERNAME/react-test npm test
+
+after_success:
+  - docker build -t xuanhuaz/multi-client ./client
+  - docker build -t xuanhuaz/multi-nginx ./nginx
+  - docker build -t xuanhuaz/multi-server ./server
+  - docker build -t xuanhuaz/multi-worker ./worker
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push xuanhuaz/multi-client
+  - docker push xuanhuaz/xuanhuaz/multi-nginx
+  - docker push xuanhuaz/multi-server
+  - docker push xuanhuaz/multi-worker
