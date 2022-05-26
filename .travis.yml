@@ -17,6 +17,6 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
   - docker push xuanhuaz/multi-client
-  - docker push xuanhuaz/xuanhuaz/multi-nginx
+  - docker push xuanhuaz/multi-nginx
   - docker push xuanhuaz/multi-server
   - docker push xuanhuaz/multi-worker
